@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CiBiDi - Links</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Colores de las plataformas */
+            --gem-space: #4285F4;  /* Apple Music */
+            --gem-time: #1DB954;   /* Spotify */
+            --gem-mind: #FFD700;   /* Amazon Music */
+            --gem-reality: #FF0000;/* YouTube */
+            --gem-soul: #00F2FE;   /* TikTok */
+        }
+
+        /* Reseteo y Tipografía */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            perspective: 1000px;
+            position: relative;
+        }
+
+        /* --- FONDO DE IMAGEN CON MOVIMIENTO --- */
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('https://i.imgur.com/uqjqrRb.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+            /* SE HA ELIMINADO EL DESENFOQUE (BLUR), SOLO QUEDA BRILLO BAJO */
+            filter: brightness(0.5); 
+            /* SE HA AÑADIDO LA ANIMACIÓN DE ZOOM LENTO (slowZoom) */
+            animation: imageIntro 1.5s ease-out forwards, slowZoom 20s linear infinite;
+        }
+
+        @keyframes imageIntro {
+            from { opacity: 0; transform: scale(1.05); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* NUEVA ANIMACIÓN PARA MOVIMIENTO LENTO DE ZOOM */
+        @keyframes slowZoom {
+            0% { transform: scale(1.0); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1.0); }
+        }
+
+        /* Capa oscura para contraste */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+        /* ------------------------------------- */
+
+        /* Contenedor Principal */
+        .music-card {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+            margin: auto; 
+        }
+
+        /* --- CABECERA DEL ARTISTA CON BORDE LUMINOSO --- */
+        .header-section {
+            text-align: center;
+            margin-bottom: 35px;
+            animation: slideDownFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.3s;
+            opacity: 0;
+        }
+
+        .album-art {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            /* SE HA AÑADIDO UN BORDE BLANCO SÓLIDO Y UN RESPLANDOR LUMINOSO */
+            border: 3px solid #ffffff; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 
+                        0 0 20px rgba(255, 255, 255, 0.7), /* Resplandor principal solicitado */
+                        0 0 10px rgba(255, 255, 255, 0.5) inset; /* Resplandor interior */
+            margin-bottom: 20px;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .album-art:hover {
+            transform: scale(1.08) rotate(5deg);
+        }
+
+        /* NUEVO CONTENEDOR PARA NOMBRE Y VERIFICADO */
+        .verified-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px; /* Espacio entre nombre e icono */
+        }
+
+        .verified-icon {
+            width: 20px; /* Tamaño del icono */
+            height: 20px;
+        }
+
+        .artist-name {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+            text-transform: uppercase;
+        }
+
+        @keyframes slideDownFade {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* ------------------------------------ */
+
+        /* Lista de Servicios */
+        .services-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        /* Fila de Servicio - Efecto Cristal */
+        .service-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Stagger de animaciones */
+        .service-row:nth-child(1) { animation-delay: 0.5s; }
+        .service-row:nth-child(2) { animation-delay: 0.6s; }
+        .service-row:nth-child(3) { animation-delay: 0.7s; }
+        .service-row:nth-child(4) { animation-delay: 0.8s; }
+        .service-row:nth-child(5) { animation-delay: 0.9s; }
+
+        @keyframes slideUpFade {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Efecto de Reflejo */
+        .service-row::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+            transform: skewX(-25deg);
+            transition: 0.6s ease-in-out;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .service-row:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 25px -5px var(--gem-color);
+            z-index: 10;
+        }
+
+        .service-row:hover::before {
+            left: 150%;
+        }
+
+        .service-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 2;
+        }
+
+        .service-logo-container {
+            /* ICONOS MÁS PEQUEÑOS (Antes 22px) */
+            width: 18px;
+            height: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .service-logo-container svg {
+            width: 100%;
+            height: 100%;
+            fill: #b3b3b3;
+            transition: all 0.4s ease;
+        }
+
+        .service-row:hover .service-logo-container svg {
+            fill: var(--gem-color);
+            filter: drop-shadow(0 0 6px var(--gem-color));
+        }
+
+        .service-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #eeeeee;
+        }
+
+        .action-button {
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            padding: 6px 18px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            z-index: 2;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .service-row:hover .action-button {
+            background-color: var(--gem-color);
+            border-color: var(--gem-color);
+            color: #000000;
+            box-shadow: 0 0 15px var(--gem-color);
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .artist-name { font-size: 32px; }
+            .music-card { max-width: 520px; }
+            .verified-icon { width: 24px; height: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-image"></div>
+    <div class="video-overlay"></div>
+
+    <main class="music-card">
+        
+        <header class="header-section">
+            <img src="https://i.imgur.com/PBfKk9e.jpg" alt="CiBiDi" class="album-art">
+            
+            <div class="verified-wrapper">
+                <h1 class="artist-name">CiBiDi</h1>
+                <svg class="verified-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM9.29 16.29L5.7 12.7C5.31 12.31 5.31 11.68 5.7 11.29C6.09 10.9 6.72 10.9 7.11 11.29L10 14.17L16.88 7.29C17.27 6.9 17.9 6.9 18.29 7.29C18.68 7.68 18.68 8.31 18.29 8.7L10.7 16.29C10.32 16.68 9.68 16.68 9.29 16.29Z" fill="#1DA1F2"/>
+                </svg>
+            </div>
+        </header>
+
+        <nav class="services-list">
+            <div class="service-row" style="--gem-color: var(--gem-space);">
+                <div class="service-info">
+                    <div class="service-logo-container">
+                        <svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+                    </div>
+                    <span class="service-name">Apple Music</span>
+                </div>
+                <a href="https://music.apple.com/us/artist/joss-giant/1714744599" class="action-button" target="_blank">Escuchar</a>
+            </div>
+
+            <div class="service-row" style="--gem-color: var(--gem-time);">
+                <div class="service-info">
+                    <div class="service-logo-container">
+                        <svg viewBox="0 0 496 512"><path d="M248 8C111.1 8 0 119.1 0 256s111.1 248 248 248 248-111.1 248-248S384.9 8 248 8zm100.7 364.9c-4.2 0-6.8-1.3-10.7-3.6-62.4-37.6-135-39.2-206.7-24.5-3.9 1-9 2.6-11.9 2.6-9.7 0-15.8-7.7-15.8-15.8 0-10.3 6.1-17.3 15.8-19.6 82.3-16.7 163.6-13.8 234.3 29.5 8.7 5.2 11.5 14.5 11.5 21.3 0 9-7.1 15.8-16.5 15.8zM366.6 309c-5.2 0-9.4-1.9-13.2-4.5-73.4-48-166.5-56.1-253.3-34.5-5.2 1.3-10.3 2.9-14.8 2.9-13.5 0-22.5-10.6-22.5-22.5 0-13.8 8.1-23.2 21.9-26.4 97.4-24.8 203.3-14.5 287.8 40.6 11 7.4 14.8 19.3 14.8 28.7 0 13.5-10.3 23.2-22.7 23.2h2zM380.2 232c-6.8 0-12.3-2.6-17.7-6.1-85.8-54.8-219.4-66.4-315.6-37.4-6.8 2.3-13.5 3.9-19.3 3.9-17.4 0-30.3-13.8-30.3-30.3 0-19.6 11-30.6 29-35.8 110.7-33.8 259.4-20.3 361.4 44.8 14.2 9 19.3 24.5 19.3 36.7 0 18.7-14.2 32.2-31.9 32.2h-2z"/></svg>
+                    </div>
+                    <span class="service-name">Spotify</span>
+                </div>
+                <a href="https://open.spotify.com/intl-es/artist/1u42p4qKNrOfGdPcRtG6gU" class="action-button" target="_blank">Escuchar</a>
+            </div>
+
+            <div class="service-row" style="--gem-color: var(--gem-mind);">
+                <div class="service-info">
+                    <div class="service-logo-container">
+                        <svg viewBox="0 0 448 512"><path d="M257.2 162.7c-44.4 0-91.8 19.5-115.3 49.6l17.4 20.2c20.3-23.4 56.6-38.6 94-38.6 37 0 68 15.5 83.2 41 15 25.1 11.2 64.9-10.9 92.7-22.3 28-60.8 44.5-103.2 44.5-43.1 0-82-17.2-104.9-46.3l-18 19.2c27.1 33.6 72 53.6 122 53.6 50.8 0 96.8-20.1 123.6-54 26.5-33.5 31-80.4 12-111.4-18.4-30-55.5-48.5-99.9-48.5zM388.8 393.3c-53 38.3-120.7 60-192.5 60-63.6 0-123.8-17-173.8-46.8l-12.7-7.6 10.1-10.5c3.2-3.3 8.5-3.3 11.8.2 43.8 45.4 104.7 70.4 168.3 70.4 67.4 0 131.5-22.8 180.7-64.2 4-3.4 9.9-2.5 12.8 2l8.8 13.6c2.5 3.9 1.4 9-2.4 11.9zM294.6 429.6c-4.4 3.7-10.4 2.8-14.8-1.5-19.4-19.1-45.7-27.9-74.1-27.9-26.6 0-51 7.3-69.4 24.2-4.1 3.8-9.9 4-13.8.3l-10-9.6c-3.9-3.8-3.9-9.8.3-13.5 22.8-20.2 52.8-29.2 84.8-29.2 33 0 63.8 10.7 86.8 33 3.9 3.8 4 9.8.2 13.6l-10 10.6z"/></svg>
+                    </div>
+                    <span class="service-name">Amazon Music</span>
+                </div>
+                <a href="https://music.amazon.com/artists/B0CMJN9SGG/joss-giant?marketplaceId=ATVPDKIKX0DER&musicTerritory=US&ref=dm_sh_5b8pPoxiuSHcNko0QgFT0oEJ8" class="action-button" target="_blank">Escuchar</a>
+            </div>
+
+            <div class="service-row" style="--gem-color: var(--gem-reality);">
+                <div class="service-info">
+                    <div class="service-logo-container">
+                        <svg viewBox="0 0 576 512"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.781 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.204-142.739 81.202z"/></svg>
+                    </div>
+                    <span class="service-name">YouTube</span>
+                </div>
+                <a href="https://youtube.com/@jossgiant" class="action-button" target="_blank">Ver</a>
+            </div>
+
+            <div class="service-row" style="--gem-color: var(--gem-soul);">
+                <div class="service-info">
+                    <div class="service-logo-container">
+                        <svg viewBox="0 0 448 512"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0h88a121.18 121.18 0 0 0 1.86 22.17A122.18 122.18 0 0 0 381 102.39a121.4 121.4 0 0 0 67 20.14z"/></svg>
+                    </div>
+                    <span class="service-name">TikTok</span>
+                </div>
+                <a href="https://www.tiktok.com/@jossgiant" class="action-button" target="_blank">Ir A</a>
+            </div>
+        </nav>
+    </main>
+
+</body>
+</html>
